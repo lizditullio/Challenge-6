@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="./Assets/style.css" />
+        <script defer src="https://kit.fontawesome.com/94a9fd42dd.js" crossorigin="anonymous"></script>
+        <script defer src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script defer src="./Assets/script.js"></script>
+        <title>Weather Dashboard</title>
+    </head>
+
+<body>
+    <header class="jumbotron text-white bg-primary text-center">
+        <h1 class="title">Weather Dashboard</h1>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 search-container ml-4 pb-2 border-bottom border-dark">
+                <h2 class="font-weight-bold">Search for a City:</h2>
+                <div class="search-area">
+                    <input id="enter-city" placeholder="San Diego" size="30">
+                        <button class="btn btn-primary btn-lg" type="button" id="search-button">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                </div>
+                <div class="history-container col ml-4">
+                <h2>History</h2>
+                <form id="savedData"></form>
+                </div>
+            </div>
+            <div class="col-lg-8 weather-container">
+                <div class="row">
+                    <div class="col-12 text-center d-none" id="weatherNow">
+                        <div class="detail row"> </div>
+                           
+                    </div>
+                <div class="row text-center">
+          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
