@@ -20,6 +20,9 @@ function weatherData(cityName) {
 };
 
 function displayData(data){
+  var locationHandler = document.createElement("h2");
+  locationHandler.textContent = "5 Dat Forecast for " + document.querySelector("#enter-city").value;
+    document.querySelector(".place").appendChild(locationHandler);
     for(var i = 0; i<40; i=i+8) {
         var theDay = data.list[i].dt_txt
         console.log(theDay);
@@ -28,6 +31,15 @@ function displayData(data){
         var dataHolder = document.createElement("div");
         //dataHolder.setAttribute("card");
         document.querySelector(".detail").appendChild(dataHolder);
+
+        var day = document.createElement("h3");
+        theDay = theDay.split(" ");
+        console.log(theDay);
+        editedDay = theDay[0].split("-");
+        console.log(editedDay);
+        day.textContent = editedDay[1] + "/" + editedDay[2];
+        dataHolder.appendChild(day);
+
       var temp = document.createElement("p");
         temp.textContent = ("Temperature " + data.list[i].main.temp + " degrees");
         dataHolder.appendChild(temp);
