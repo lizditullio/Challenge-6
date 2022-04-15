@@ -32,9 +32,21 @@ function displayToday(data){
         var newDate = today.split(" ");
         console.log(newDate);
       
+    var currentHeader = document.createElement("div");
+    currentHeader.classList.add("row");
+    dataHolder.appendChild(currentHeader);
+
+
         var day = document.createElement("h3");
         day.textContent = newDate[1] + " " + newDate[2];
-        dataHolder.appendChild(day);
+        day.classList.add("col-7");
+         currentHeader.appendChild(day);
+
+        var weatherImage = document.createElement("img");
+        var icon = data.weather[0].icon;
+        weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+        weatherImage.classList.add("col-5")
+        currentHeader.appendChild(weatherImage);
 
         var temp = document.createElement("p");
         temp.textContent = ("Temperature " + data.main.temp + " °F");
@@ -46,10 +58,6 @@ function displayToday(data){
             windSpeed.textContent = ("Wind Speed " + data.wind.speed + "MPH");
            dataHolder.appendChild(windSpeed);
            getUVIndex();
-           var weatherImage = document.createElement("img");
-             var icon = data.weather[0].icon;
-             weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-             dataHolder.appendChild(weatherImage);
           
            function getUVIndex () {
             let api = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
@@ -115,6 +123,7 @@ function displayData(data){
     heading.textContent= "5 Day Forecast";
     document.querySelector(".forecastTitle").appendChild(heading);
     var dataHolder = document.createElement("div");
+    dataHolder.classList.add("row")
      document.querySelector(".forecast").appendChild(dataHolder)
     for(var i = 0; i<40; i=i+8) {
         var theDay = data.list[i].dt_txt
@@ -122,7 +131,10 @@ function displayData(data){
         var dt = data.list[i].main.temp
         console.log(dt);
         var dataHolder = document.createElement("div");
-        //dataHolder.setAttribute("card");
+        dataHolder.classList.add("card");
+        dataHolder.classList.add("col-2");
+        dataHolder.classList.add("bg-dark");
+        dataHolder.classList.add("text-light");
         document.querySelector(".forecast").appendChild(dataHolder);
 
         var day = document.createElement("h3");
