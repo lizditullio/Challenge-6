@@ -15,6 +15,7 @@ function weatherDataCurrent(cityName) {
        return response.json()
    }).then(function(data){
        displayToday(data);
+       document.getElementById("enter-city").value = "";
   }).catch(function(error){
      console.log(error)
    })
@@ -197,8 +198,8 @@ searchButton.addEventListener('click', function () {
     weatherDataCurrent(searchTerm);
     weatherDataFuture(searchTerm);
     console.log(searchTerm);
-    history();
-    document.getElementById("enter-city").value = "";
+    history(searchTerm);
+    //document.getElementById("enter-city").value = "";
 });
 
 /*makes enter button trigger search button click*/
@@ -210,18 +211,28 @@ document.getElementById("enter-city")
     });
 
 /*save input in local storage and display under search history*/
-function history() {
-    const searchTerm = city.value;
-   // weatherData(searchTerm);
+function history(searchTerm) {
+    let elem = document.createElement("p")
+    elem.textContent = searchTerm;
+    elem.classList.add("bg-secondary");
+    elem.classList.add("text-light");
     searchHistory.push(searchTerm);
-    localStorage.setItem("search", JSON.stringify(searchHistory));
-    savedData.textContent = (city.value);
+    document.querySelector(".history-container").appendChild(elem)
     console.log(savedData.textContent);
-    localStorage.setItem("history", JSON.stringify(savedData.textContent));
+    localStorage.setItem("history", JSON.stringify(searchHistory));
 };
 
-/*reloads function when clicking city name in history */
-savedData.addEventListener("click", function() {
-    searchTerm = city.value;
-    weatherData(searchTerm)
-}); 
+function repopulateHistory(){
+    let searchHistory = JSON.parse(localStorage.getItem("history")) || []
+        for(let i=0;i<searchHistory.length;i++){
+            let elem = document.createElement("p")
+            elem.textContent = searchHistory[i];
+            elem.classList.add("bg-secondary");
+            elem.classList.add("text-light");
+            console.log("we are saving")
+            console.log(elem.textContent);
+            document.querySelector(".history-container").appendChild(elem);
+        };
+    };
+
+repopulateHistory();
