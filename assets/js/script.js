@@ -23,6 +23,8 @@ function weatherDataCurrent(cityName) {
 function displayToday(data){
     lat = data.coord.lat;
     lon = data.coord.lon;
+    document.querySelector(".place").textContent = "";
+    document.querySelector(".today").textContent = "";
     var locationHandler = document.createElement("h2");
     locationHandler.textContent = "Current Weather in " + document.querySelector("#enter-city").value;
       document.querySelector(".place").appendChild(locationHandler);
@@ -119,6 +121,8 @@ function weatherDataFuture(cityName) {
 };
 
 function displayData(data){
+    document.querySelector(".forecastTitle").textContent= "";
+    document.querySelector(".forecast").textContent= "";
     var heading= document.createElement("h3");
     heading.textContent= "5 Day Forecast";
     document.querySelector(".forecastTitle").appendChild(heading);
@@ -189,13 +193,12 @@ function displayData(data){
 };
 
 searchButton.addEventListener('click', function () {
-    /*trims spaces for cities with spaces to avoid breaking api url*/
     const searchTerm = city.value.trim();
     weatherDataCurrent(searchTerm);
     weatherDataFuture(searchTerm);
     console.log(searchTerm);
     history();
-    //document.getElementById("date").innerHTML = Date();
+    document.getElementById("enter-city").value = "";
 });
 
 /*makes enter button trigger search button click*/
