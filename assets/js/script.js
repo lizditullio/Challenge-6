@@ -4,16 +4,16 @@ var searchButton = document.getElementById('search-button');
 var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+var lat = "";
+var lon = "";
 
 function weatherDataCurrent(cityName) {
     weatherNow.classList.remove("d-none");
-   let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
+   let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
     fetch(api)
     .then(function(response){
        return response.json()
    }).then(function(data){
-        console.log("today array")
-       console.log(data)
        displayToday(data);
   }).catch(function(error){
      console.log(error)
@@ -21,21 +21,23 @@ function weatherDataCurrent(cityName) {
 };
 
 function displayToday(data){
+    lat = data.coord.lat;
+    lon = data.coord.lon;
     var locationHandler = document.createElement("h2");
-    locationHandler.textContent = "5 Dat Forecast for " + document.querySelector("#enter-city").value;
+    locationHandler.textContent = "Current Weather in " + document.querySelector("#enter-city").value;
       document.querySelector(".place").appendChild(locationHandler);
           var dataHolder = document.createElement("div");
-          document.querySelector(".detail").appendChild(dataHolder)
+          document.querySelector(".today").appendChild(dataHolder)
           var today = Date();
         var newDate = today.split(" ");
         console.log(newDate);
-
+      
         var day = document.createElement("h3");
         day.textContent = newDate[1] + " " + newDate[2];
         dataHolder.appendChild(day);
 
         var temp = document.createElement("p");
-        temp.textContent = ("Temperature " + data.temp + " degrees");
+        temp.textContent = ("Temperature " + data.main.temp + " °F");
          dataHolder.appendChild(temp);
          var humidity = document.createElement("p");
            humidity.textContent = ("Humidity " + data.main.humidity + "%");
@@ -43,13 +45,57 @@ function displayToday(data){
            var windSpeed = document.createElement("p");
             windSpeed.textContent = ("Wind Speed " + data.wind.speed + "MPH");
            dataHolder.appendChild(windSpeed);
-         var weatherImage = document.createElement("img");
+           getUVIndex();
+           var weatherImage = document.createElement("img");
              var icon = data.weather[0].icon;
-           weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-        dataHolder.appendChild(weatherImage);
-  };
-  
+             weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+             dataHolder.appendChild(weatherImage);
+          
+           function getUVIndex () {
+            let api = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+           fetch(api)
+           .then(function(response){
+              return response.json()
+             }).then(function(data){
+               var uvi = data.current.uvi
+               console.log(uvi);
+               styleUVI(uvi);
+            }).catch(function(error){
+            console.log(error)
+             })
+          };
+    
+    
+            function styleUVI (uvi) {
+                var uvHandler = document.createElement("div");
+                uvHandler.classList.add("row")
+                dataHolder.appendChild(uvHandler);
+                var uvTitle = document.createElement("p");
+                uvTitle.textContent = "UV Index: "
+                uvTitle.classList.add("col-7")
+                uvHandler.appendChild(uvTitle);
+                var uvIndex = document.createElement("p");
+                uvIndex.textContent = parseFloat(uvi)
+                uvIndex.classList.add("col-5")
+                uvHandler.appendChild(uvIndex);
+                console.log("the current UV is")
+                console.log(uvi);
+                if (uvi < 3) {
+                    console.log("good")
+                    uvIndex.classList.add("bg-success");
+                }else if (uvi < 6) {
+                    console.log("good")
+                    uvIndex.classList.add("bg-warning");
+                }else if (uvi < 8) {
+                    console.log("good")
+                    uvIndex.classList.add("bg-danger");
+                } else {
+                    uvIndex.classList.add("bg-dark");
+                }
+            };
 
+    };
+  
 function weatherDataFuture(cityName) {
     weatherNow.classList.remove("d-none");
    let apiSecond = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
@@ -58,7 +104,6 @@ function weatherDataFuture(cityName) {
        return response.json()
    }).then(function(data){
     console.log("future array")
-       console.log(data)
        displayData(data);
   }).catch(function(error){
      console.log(error)
@@ -66,14 +111,19 @@ function weatherDataFuture(cityName) {
 };
 
 function displayData(data){
-    for(var i = 0; i<32; i=i+8) {
+    var heading= document.createElement("h3");
+    heading.textContent= "5 Day Forecast";
+    document.querySelector(".forecastTitle").appendChild(heading);
+    var dataHolder = document.createElement("div");
+     document.querySelector(".forecast").appendChild(dataHolder)
+    for(var i = 0; i<40; i=i+8) {
         var theDay = data.list[i].dt_txt
         console.log(theDay);
         var dt = data.list[i].main.temp
         console.log(dt);
         var dataHolder = document.createElement("div");
         //dataHolder.setAttribute("card");
-        document.querySelector(".detail").appendChild(dataHolder);
+        document.querySelector(".forecast").appendChild(dataHolder);
 
         var day = document.createElement("h3");
         theDay = theDay.split(" ");
@@ -109,9 +159,13 @@ function displayData(data){
         console.log(monthInWords);
         day.textContent = monthInWords + " " + editedDay[2];
         dataHolder.appendChild(day);
+        var weatherImage = document.createElement("img");
+        var icon = data.list[i].weather[0].icon;
+         weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+         dataHolder.appendChild(weatherImage);
 
-      var temp = document.createElement("p");
-        temp.textContent = ("Temperature " + data.list[i].main.temp + " degrees");
+         var temp = document.createElement("p");
+        temp.textContent = ("Temperature " + data.list[i].main.temp + " °F");
         dataHolder.appendChild(temp);
         var humidity = document.createElement("p");
          humidity.textContent = ("Humidity " + data.list[i].main.humidity + "%");
@@ -119,10 +173,6 @@ function displayData(data){
          var windSpeed = document.createElement("p");
          windSpeed.textContent = ("Wind Speed " + data.list[i].wind.speed + "MPH");
          dataHolder.appendChild(windSpeed);
-    var weatherImage = document.createElement("img");
-     var icon = data.list[i].weather[0].icon;
-      weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-      dataHolder.appendChild(weatherImage);
    }
 };
 
