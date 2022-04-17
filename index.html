@@ -14,7 +14,7 @@
     </head>
 
 <body>
-    <header class="jumbotron text-white bg-primary text-center">
+    <header class="jumbotron bg-dark bg-gradient text-white text-center">
         <h1 class="title">Weather Dashboard</h1>
     </header>
 
@@ -36,9 +36,11 @@
             <div class="col-lg-8 weather-container">
                 <div class="row" >
                     <div class="col-12 text-center d-none" id="weatherNow">
-                        <div class="place row"> </div>
-                        <div class="today row"> </div>
-                        <div class="forecastTitle row"> </div>
+                        <div class="card">
+                            <div class="place row card-title pl-5 font-weight-bold"> </div>
+                            <div class="today row card-body p-5 text-left"> </div>
+                        </div>
+                        <div class="forecastTitle row font-weight-bold"> </div>
                         <div class="forecast row justify-content-between"> </div>
                            
                     </div>

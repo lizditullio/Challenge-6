@@ -52,13 +52,13 @@ function displayToday(data){
         currentHeader.appendChild(weatherImage);
 
         var temp = document.createElement("p");
-        temp.textContent = ("Temperature " + data.main.temp + " °F");
-         dataHolder.appendChild(temp);
+        temp.textContent = ("Temperature: " + data.main.temp + " °F");
+        dataHolder.appendChild(temp);
          var humidity = document.createElement("p");
-           humidity.textContent = ("Humidity " + data.main.humidity + "%");
+           humidity.textContent = ("Humidity: " + data.main.humidity + "%");
            dataHolder.appendChild(humidity);
            var windSpeed = document.createElement("p");
-            windSpeed.textContent = ("Wind Speed " + data.wind.speed + "MPH");
+            windSpeed.textContent = ("Wind Speed: " + data.wind.speed + "MPH");
            dataHolder.appendChild(windSpeed);
            getUVIndex();
           
@@ -182,13 +182,13 @@ function displayData(data){
          dataHolder.appendChild(weatherImage);
 
          var temp = document.createElement("p");
-        temp.textContent = ("Temperature " + data.list[i].main.temp + " °F");
+        temp.textContent = ("Temperature: " + data.list[i].main.temp + " °F");
         dataHolder.appendChild(temp);
         var humidity = document.createElement("p");
-         humidity.textContent = ("Humidity " + data.list[i].main.humidity + "%");
+         humidity.textContent = ("Humidity: " + data.list[i].main.humidity + "%");
          dataHolder.appendChild(humidity);
          var windSpeed = document.createElement("p");
-         windSpeed.textContent = ("Wind Speed " + data.list[i].wind.speed + "MPH");
+         windSpeed.textContent = ("Wind Speed: " + data.list[i].wind.speed + "MPH");
          dataHolder.appendChild(windSpeed);
    }
 };
@@ -199,7 +199,6 @@ searchButton.addEventListener('click', function () {
     weatherDataFuture(searchTerm);
     console.log(searchTerm);
     history(searchTerm);
-    //document.getElementById("enter-city").value = "";
 });
 
 /*makes enter button trigger search button click*/
